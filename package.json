@@ -1,0 +1,23 @@
+{
+  "name": "noneuclid",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "parcel ./src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antony74/noneuclid.git"
+  },
+  "author": "Antony74",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Antony74/noneuclid/issues"
+  },
+  "homepage": "https://github.com/Antony74/noneuclid#readme",
+  "dependencies": {
+    "@types/p5": "^0.9.0",
+    "p5": "^1.0.0",
+    "parcel": "^1.12.4",
+    "typescript": "^3.9.2"
+  }
+}
