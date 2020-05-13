@@ -15,6 +15,5 @@ const sketch = (p) => {
   }
 }
 
-console.log('trying');
-new p5(sketch, document.getElementById('sketch'));
+new p5(sketch);
 
