@@ -2,7 +2,7 @@ import p5 from 'p5';
 const rectRadius = 10;
 let drag = 999;
 
-const sketch = (p: p5) => {
+const sketch = (p: p5): void => {
 
   const points: p5.Vector[] = [
     (new p5.Vector()).set(100, 100),
@@ -10,8 +10,8 @@ const sketch = (p: p5) => {
     (new p5.Vector()).set(200, 200)
   ];
 
-  const doDraw = () => {
-    p.background(128);
+  const doDraw = (): void => {
+    p.background(200);
 
     p.noStroke();
     p.fill(255, 0, 0, 128);
@@ -20,16 +20,16 @@ const sketch = (p: p5) => {
       p.rect(point.x, point.y, rectRadius, rectRadius);
     });
 
-  }
+  };
 
-  p.setup = () => {
+  p.setup = (): void => {
     p.createCanvas(640, 480);
     p.rectMode(p.CENTER);
 
     doDraw();
-  }
+  };
 
-  p.mousePressed = () => {
+  p.mousePressed = (): void => {
     for (let n = 0; n < points.length; ++n)
     {
       const v = points[n];
@@ -41,9 +41,9 @@ const sketch = (p: p5) => {
     }
     
     drag = 999;
-  }
+  };
   
-  p.mouseDragged = () => {
+  p.mouseDragged = (): void => {
     if (drag < points.length)
     {
       points[drag].x = p.mouseX;
@@ -51,9 +51,9 @@ const sketch = (p: p5) => {
       
       doDraw();
     }
-  }
+  };
   
-}
+};
 
 new p5(sketch);
 

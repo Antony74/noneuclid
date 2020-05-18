@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
 // Generalized sine
 const gsin = (K: number) => {
@@ -24,27 +25,31 @@ const cosineLaw = (K: number) => {
   if (K === 0) {
     return (a: number, b: number, C: number): number => {
       return Math.sqrt( (a * a) + (b * b) - (2 * a * b * Math.cos(C)));
-    }
+    };
   } else if (K > 0) {
     const r = Math.sqrt(K);
     return (a, b, C) => {
       return r * Math.acos( (Math.cos(a/r) * Math.cos(b/r)) + (Math.sin(a/r) * Math.sin(b/r) * Math.cos(C)) );
-    }
+    };
   } else { // k < 0
     const k = Math.sqrt(-K);
     return (a, b, C) => {
       return k * Math.acosh( (Math.cosh(a/k) * Math.cosh(b/k)) + (Math.sinh(a/k) * Math.sinh(b/k) * Math.cos(C)) );
-    }
+    };
   }
-}
+};
 
-interface NonEulcid {
+interface NonEulcidBase {
   gsin(s: number): number;
   cosineLaw(a, b, C): number;
 }
 
-const addVectors = (ne: NonEulcid) => {
-  return ([r1, theta1], [r2, theta2]) => {
+interface NonEulcid extends NonEulcidBase {
+  addVectors([r1, theta1], [r2, theta2]): [number, number];
+}
+
+const addVectors = (ne: NonEulcidBase) => {
+  return ([r1, theta1], [r2, theta2]): [number, number] => {
 
     const R = Math.abs(theta2 - theta1); // Well that's probably correct in Euclidean space
 
@@ -60,11 +65,11 @@ const addVectors = (ne: NonEulcid) => {
 
     return [r, theta];
   };
-}
+};
 
-const create = (K: number) => {
+const create = (K: number): NonEulcid => {
 
-  const ne: NonEulcid = {
+  const ne: NonEulcidBase = {
     gsin: gsin(K),
     cosineLaw: cosineLaw(K)
   };
@@ -72,7 +77,7 @@ const create = (K: number) => {
   return {
     addVectors: addVectors(ne),
     ...ne
-  }
+  };
 };
 
 export default create;
