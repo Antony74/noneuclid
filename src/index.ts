@@ -1,8 +1,12 @@
 import p5 from 'p5';
+import nonEuclidCreate from './noneuclid';
+
 const rectRadius = 10;
 let drag = 999;
 
 const sketch = (p: p5): void => {
+
+  const ne = nonEuclidCreate(0);
 
   const line = (pt1: p5.Vector, pt2: p5.Vector): void => {
     p.line(pt1.x, pt1.y, pt2.x, pt2.y);
@@ -56,6 +60,7 @@ const sketch = (p: p5): void => {
 
     // Draw lines
     p.stroke(0);
+    p.strokeWeight(1);
     line(points[0], points[1]);
     line(points[1], points[2]);
     line(points[0], points[2]);
@@ -82,6 +87,32 @@ const sketch = (p: p5): void => {
 
     const aboutb = `b = ${b.toFixed(0)} pixels`;
     p.text(aboutb, 10, 70);
+
+    // Use cosine law to calculate c
+
+    const c = ne.cosineLaw(a, b, C);
+
+    const aboutc = `via cosine law, c = ${c.toFixed(0)} pixels`;
+    p.text(aboutc, 10, 90);
+
+    // Use unified sine law to calculate B
+    const sineLawRatio = Math.sin(C) / ne.gsin(c);
+    const B = Math.asin(sineLawRatio * ne.gsin(b));
+    const Babs = Math.abs(B);
+
+    const aboutRatio = `sine law ratio = ${sineLawRatio.toFixed(6)}`;
+    p.text(aboutRatio, 10, 110);
+
+    const aboutB = `via sine law, B = ${Babs.toFixed(2)} radians = ${p.degrees(Babs).toFixed(0)} degrees`;
+    p.text(aboutB, 10, 130);
+
+    const vecA = p5.Vector.sub(points[2], points[1]);
+
+    p.strokeWeight(5);
+    p.stroke(255, 0, 0);
+
+    const vecC = p5.Vector.fromAngle(vecA.heading() + B).setMag(c);
+    line(points[1], p5.Vector.add(points[1], vecC));
   };
 
   p.setup = (): void => {
