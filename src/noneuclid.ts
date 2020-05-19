@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-// Generalized sine
+// Russell, Robert A. "Generalized Law of Sines." From MathWorld--A Wolfram Web Resource, created by Eric W. Weisstein.
+// https://mathworld.wolfram.com/GeneralizedLawofSines.html 
 const gsin = (K: number) => {
   if (K === 1) {
     return Math.sin;
@@ -27,14 +28,14 @@ const cosineLaw = (K: number) => {
       return Math.sqrt( (a * a) + (b * b) - (2 * a * b * Math.cos(C)));
     };
   } else if (K > 0) {
-    const r = Math.sqrt(K);
+    const r = 1 / Math.sqrt(K);
     return (a, b, C) => {
       return r * Math.acos( (Math.cos(a/r) * Math.cos(b/r)) + (Math.sin(a/r) * Math.sin(b/r) * Math.cos(C)) );
     };
   } else { // k < 0
-    const k = Math.sqrt(-K);
+    const k = 1 / Math.sqrt(-K);
     return (a, b, C) => {
-      return k * Math.acosh( (Math.cosh(a/k) * Math.cosh(b/k)) + (Math.sinh(a/k) * Math.sinh(b/k) * Math.cos(C)) );
+      return k * Math.acosh( (Math.cosh(a/k) * Math.cosh(b/k)) - (Math.sinh(a/k) * Math.sinh(b/k) * Math.cos(C)) );
     };
   }
 };

@@ -100,7 +100,7 @@ const sketch = (p: p5): void => {
     const B = Math.asin(sineLawRatio * ne.gsin(b));
     const Babs = Math.abs(B);
 
-    const aboutRatio = `sine law ratio = ${sineLawRatio.toFixed(6)}`;
+    const aboutRatio = `sine law ratio = ${sineLawRatio}`;
     p.text(aboutRatio, 10, 110);
 
     const aboutB = `via sine law, B = ${Babs.toFixed(2)} radians = ${p.degrees(Babs).toFixed(0)} degrees`;
