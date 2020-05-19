@@ -4,10 +4,30 @@ let drag = 999;
 
 const sketch = (p: p5): void => {
 
+  const line = (pt1: p5.Vector, pt2: p5.Vector): void => {
+    p.line(pt1.x, pt1.y, pt2.x, pt2.y);
+  };
+
+  const labelAngle = (label: string, points: p5.Vector[], index: number): void => {
+
+    const point = points[index];
+
+    const sum: p5.Vector = points.reduce(
+      (acc, vec) => acc.add(vec).sub(point),
+      new p5.Vector()
+    );
+
+    const textAdjustment = (new p5.Vector()).set(-p.textWidth(label), p.textSize()).mult(0.5);
+
+    const labelPosition = sum.setMag(20).add(point).add(textAdjustment);
+
+    p.text(label, labelPosition.x, labelPosition.y);
+  };
+
   const points: p5.Vector[] = [
-    (new p5.Vector()).set(100, 100),
-    (new p5.Vector()).set(200, 100),
-    (new p5.Vector()).set(200, 200)
+    (new p5.Vector()).set(300, 150),
+    (new p5.Vector()).set(500, 100),
+    (new p5.Vector()).set(450, 300)
   ];
 
   const doDraw = (): void => {
@@ -20,6 +40,15 @@ const sketch = (p: p5): void => {
       p.rect(point.x, point.y, rectRadius, rectRadius);
     });
 
+    p.stroke(0);
+    line(points[0], points[1]);
+    line(points[1], points[2]);
+    line(points[0], points[2]);
+
+    p.fill(0);
+    labelAngle('A', points, 0);
+    labelAngle('B', points, 1);
+    labelAngle('C', points, 2);
   };
 
   p.setup = (): void => {
