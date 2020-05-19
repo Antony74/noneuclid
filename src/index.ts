@@ -8,21 +8,33 @@ const sketch = (p: p5): void => {
     p.line(pt1.x, pt1.y, pt2.x, pt2.y);
   };
 
-  const labelAngle = (label: string, points: p5.Vector[], index: number): number => {
+  const textAdjustment = (label): p5.Vector => (new p5.Vector()).set(-p.textWidth(label), p.textSize()).mult(0.5);
 
-    const point = points[index];
+  const labelAngle = (label: string, pt1: p5.Vector, pt2: p5.Vector, pt3: p5.Vector): number => {
 
-    const sum: p5.Vector = points.reduce(
-      (acc, vec) => acc.add(vec).sub(point),
-      new p5.Vector()
-    );
+    const line1 = p5.Vector.sub(pt1, pt2);
+    const line2 = p5.Vector.sub(pt3, pt2);
 
-    const textAdjustment = (new p5.Vector()).set(-p.textWidth(label), p.textSize()).mult(0.5);
-
-    const labelPosition = sum.copy().setMag(20).add(point).add(textAdjustment);
+    const labelPosition = p5.Vector.add(line1,line2).setMag(20).add(pt2).add(textAdjustment(label));
 
     p.text(label, labelPosition.x, labelPosition.y);
-    return sum.heading();
+    return line1.heading() - line2.heading();
+  };
+
+  const labelLine = (label: string, pt1: p5.Vector, pt2: p5.Vector, ptOpposite: p5.Vector): number => {
+
+    const mid = p5.Vector.add(pt1, pt2).div(2);
+    const line12 = p5.Vector.sub(pt1, pt2);
+    const perp = line12.copy().rotate(p.HALF_PI).setMag(10);
+    const pos1 = p5.Vector.add(mid, perp);
+    const pos2 = p5.Vector.sub(mid, perp);
+    const dist1 = p5.Vector.sub(pos1, ptOpposite).magSq();
+    const dist2 = p5.Vector.sub(pos2, ptOpposite).magSq();
+    
+    const labelPosition = (dist1 > dist2 ? pos1 : pos2).add(textAdjustment(label));
+
+    p.text(label, labelPosition.x, labelPosition.y);
+    return line12.mag();
   };
 
   const points: p5.Vector[] = [
@@ -50,11 +62,16 @@ const sketch = (p: p5): void => {
 
     // Label points
     p.fill(0);
-    labelAngle('A', points, 0);
-    labelAngle('B', points, 1);
+    labelAngle('A', points[2], points[0], points[1]);
+    labelAngle('B', points[0], points[1], points[2]);
+    const C = labelAngle('C', points[1], points[2], points[0]);
+
+    // Label lines
+    labelLine('a', points[1], points[2], points[0]);
+    labelLine('b', points[2], points[0], points[1]);
+    labelLine('c', points[0], points[1], points[2]);
 
     // Write out what we know
-    const C = labelAngle('C', points, 2);
     const Cabs = Math.abs(C);
     const Cdeg = 180 * Cabs / Math.PI;
 
