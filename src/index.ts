@@ -67,16 +67,21 @@ const sketch = (p: p5): void => {
     const C = labelAngle('C', points[1], points[2], points[0]);
 
     // Label lines
-    labelLine('a', points[1], points[2], points[0]);
-    labelLine('b', points[2], points[0], points[1]);
+    const a = labelLine('a', points[1], points[2], points[0]);
+    const b = labelLine('b', points[2], points[0], points[1]);
     labelLine('c', points[0], points[1], points[2]);
 
     // Write out what we know
     const Cabs = Math.abs(C);
-    const Cdeg = 180 * Cabs / Math.PI;
 
-    const aboutC = `C = ${Cabs.toFixed(2)} radians = ${Cdeg.toFixed(0)} degrees`;
+    const aboutC = `C = ${Cabs.toFixed(2)} radians = ${p.degrees(Cabs).toFixed(0)} degrees`;
     p.text(aboutC, 10, 30);
+
+    const abouta = `a = ${a.toFixed(0)} pixels`;
+    p.text(abouta, 10, 50);
+
+    const aboutb = `b = ${b.toFixed(0)} pixels`;
+    p.text(aboutb, 10, 70);
   };
 
   p.setup = (): void => {
