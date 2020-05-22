@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "start": "parcel ./src/index.html",
-    "gsin": "parcel ./src/gsin.html"
+    "start": "parcel ./src/index.html ./src/gsin.html ./src/triangle.html"
   },
   "repository": {
     "type": "git",
