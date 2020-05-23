@@ -20,11 +20,13 @@ const sketch = (p: p5): void => {
     line(0, -7, 0, 7);
     line(-7, 0, 7, 0);
 
-    for(let K = -10; K <= 10; ++K) {
+    const steps = 1000;
 
-      const ne = nonEuclidCreate(K/10);
+    for(let K = -steps; K <= steps; ++K) {
 
-      p.stroke(p.map(K, -10, 10, 0, 255), 255, 255);
+      const ne = nonEuclidCreate(K/steps);
+
+      p.stroke(p.map(K, -steps, steps, 0, 255), 255, 255);
       p.beginShape();
 
       for(let x = -p.TWO_PI; x < p.TWO_PI; x += 0.01) {
