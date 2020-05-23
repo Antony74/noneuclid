@@ -11,8 +11,11 @@ const sketch = (p: p5): void => {
   p.setup = (): void => {
     p.createCanvas(640, 480);
     p.rectMode(p.CENTER);
+    p.noFill();
 
-    p.background(200);
+    p.background(230);
+
+    p.colorMode(p.HSB);
 
     line(0, -7, 0, 7);
     line(-7, 0, 7, 0);
@@ -21,10 +24,16 @@ const sketch = (p: p5): void => {
 
       const ne = nonEuclidCreate(K/10);
 
+      p.stroke(p.map(K, -10, 10, 0, 255), 255, 255);
+      p.beginShape();
+
       for(let x = -p.TWO_PI; x < p.TWO_PI; x += 0.01) {
         const y = ne.gsin(x);
-        p.point(mapx(x), mapy(y));
+        p.vertex(mapx(x), mapy(y));
       }
+
+      p.endShape();
+
     }
   };
 

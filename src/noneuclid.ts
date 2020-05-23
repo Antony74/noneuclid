@@ -12,12 +12,12 @@ const gsin = (K: number) => {
   } else if (K > 0) {
     const r = Math.sqrt(K);
     return (s) => {
-      return Math.sin(s / r) / r;
+      return Math.sin(s * r) / r;
     };
   } else { // k < 0
     const k = Math.sqrt(-K);
     return (s) => {
-      return Math.sinh(s / k) / k;
+      return Math.sinh(s * k) / k;
     };
   }
 };
